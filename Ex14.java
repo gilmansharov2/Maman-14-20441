@@ -147,7 +147,7 @@ public class Ex14 {
 	 * @param j Represents an index for string t.
 	 * @return true if the String t is a transformation of String s, otherwise, returns false. 
 	 */
-	public static boolean isTrans(String s, String t, int i, int j)
+	private static boolean isTrans(String s, String t, int i, int j)
 	{
 		if (t.length() < s.length())
 			return false;
@@ -190,7 +190,7 @@ public class Ex14 {
 	 * @param aIndex
 	 * @return
 	 */
-	public static boolean match(int[] a, int[] pattern, int i, int j, int aIndex)
+	private static boolean match(int[] a, int[] pattern, int i, int j, int aIndex)
 	{
 		if (pattern.length == 0)
 			return true;
