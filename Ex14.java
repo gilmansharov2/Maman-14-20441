@@ -18,12 +18,16 @@ public class Ex14 {
 	// to the last element that divided by 3 with residue 1. The third sub-array is the same as the second, but with the residue of 2.
 	// now that we have these 3 sub-arrays, we'll calculate the longest sub-array- this sub array is the sub array we're looking for and it's length will be returned.
 	{
+		for (int i = 0; i < a.length; i++)
+		{
+			a[i] += (i > 0) ? a[i - 1] : 0;
+		}
+		
 		int firstZero = 0, lastZero = -1;
 		int firstOne = -1, lastOne = -1;
 		int firstTwo = -1, lastTwo = -1;
 		for (int i = 0; i < a.length; i++)
 		{
-			a[i] += (i > 0) ? a[i - 1] : 0;
 			
 			switch(Math.abs(a[i] % 3))
 			{
