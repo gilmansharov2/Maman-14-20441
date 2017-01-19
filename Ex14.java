@@ -223,21 +223,36 @@ public class Ex14 {
 		}
 	}
 	
-	public static void main(String[] args) 
+	private static boolean Tester(int size, int limit)
 	{
 		Random rand = new Random();
-		int[] a = new int[rand.nextInt(100)];
+		int[] a = new int[rand.nextInt(size)];
 		for (int i = 0; i < a.length; i++)
 		{
-			a[i] = rand.nextInt(100);
-			System.out.print(a[i] + "|");
+			if (rand.nextInt(2) == 0)
+				a[i] = rand.nextInt(limit);
+			else
+				a[i] = rand.nextInt(limit) * -1;
 		}
-		System.out.println();
-		System.out.println("array size is: " + a.length);
-		System.out.println("Bad What: " + badWhat(a));
-		System.out.println("My What: " + what(a));
+		return badWhat(a) == what(a);
+	}
+	
+	public static void main(String[] args)
+	{
+		int size = 10000;
+		int limit = 100000000;
 		
-		//System.out.println(match(new int[] {2323,3, 57, 422, 3555, 355,657}, new int[] {1,0,2}));
+		int times = 100;
+		int count = 0;
+		for (int i = 0; i < times; i++)
+		{
+			if (!Tester(size, limit))
+				count++;
+		}
+		if (count == 0)
+			System.out.println("It works!");
+		else
+			System.out.println("Failed " + count + " times");
 	}
 
 }
