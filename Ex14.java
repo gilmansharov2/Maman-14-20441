@@ -5,65 +5,63 @@
 public class Ex14 {
 
 	/**
+	 * This method gets a number and a number which we want to get modulo from, and get it's positive modulo as if the modulo is non-nagetive,
+	 * it will be returned, and if it is nagetive, it will return the: the nagetive modulo + the modulo variable.
+	 */
+	private static int floorMod(int num, int modulo)
+	{
+		num %= modulo;
+		return num >= 0 ? num : num + modulo;
+	}
+	
+	/**
 	 * 1.a. The function returns the maximal sub-array length which is sum divided by 3 without residue.
 	 * 1.b. Complexity: O(n^3).
 	 * 1.c. See function 'what' above.
+	 * 1.d. Complexity: O(n).
+	 * only 1 "for" loop, in comparison to the previous function, the private 'f' function is O(n), which makes the 'what' function O(n^3).
+	 * I didn't use the 'f' function, instead, I summed the array, as each iteration I save the sum of the array from 0 to the current index,
+	 * and save the current modulo of this sum as the "last occurrence of the sum that divided by 3 with this residue",
+	 * this data is saved in 3 variables, lastZero, lastOne and lastTwo. Until the end of the array we'll have the last occurrences of this information.
+	 * Now we're looking on 3 sub-arrays; the first one is from the first index of the array to the last index of modulo 3 divided sum.
+	 * The second sub-array is from the first element that divided by 3 with residue of 1, to the last element that divided by 3 with residue 1.
+	 * The third sub-array is the same as the second, but with the residue of 2.
+	 * now that we have these 3 sub-arrays limits, we'll calculate the longest sub-array- this sub array is the sub array we're looking for and it's length will be returned.
 	 */
 	
-	public static int what(int[] a) // 1.d. Complexity: O(n).
-	// only 2 "for" loops, seperated, in comparison to the previous function, the private 'f' function is O(n), which makes the 'what' function O(n^3). I didn't use the 'f' function,
-	// instead, I summed the array, as each index represents the sum of the array from 0 to the current index.
-	// Now we're looking on 3 sub-arrays; the first one is from the first index of the array to the last index of the last element(each element is the array sum
-	// from the beginning to the element) that divided by 3 without residue. The second sub-array is from the first element that divided by 3 with residue of 1,
-	// to the last element that divided by 3 with residue 1. The third sub-array is the same as the second, but with the residue of 2.
-	// now that we have these 3 sub-arrays, we'll calculate the longest sub-array- this sub array is the sub array we're looking for and it's length will be returned.
+	public static int what(int[] a)
 	{
-		for (int i = 0; i < a.length; i++)
-		{
-			a[i] += (i > 0) ? a[i - 1] : 0;
-		}
-		
-		int firstZero = 0, lastZero = -1;
+		int firstZero = -1, lastZero = -1;
 		int firstOne = -1, lastOne = -1;
 		int firstTwo = -1, lastTwo = -1;
+		int sum = 0;
 		for (int i = 0; i < a.length; i++)
 		{
-			
-			switch(Math.abs(a[i] % 3))
+			sum += a[i];
+			if (firstOne == -1)
+				firstOne = (floorMod(sum, 3) == 1) ? i : firstOne;
+			if (firstTwo == -1)
+				firstTwo = (floorMod(sum, 3) == 2) ? i : firstTwo;
+			switch(floorMod(sum, 3))
 			{
 			case 0:
+				lastZero = i;
 				break;
 			case 1:
-				firstOne = (firstOne == -1) ? i : firstOne;
+				lastOne = i;
 				break;
 			case 2:
-				firstTwo = (firstTwo == -1) ? i : firstTwo;
-				break;
-			}
-			
-			switch(Math.abs(a[a.length - i - 1] % 3))
-			{
-			case 0:
-				lastZero = (lastZero == -1) ? a.length - i - 1 : lastZero;
-				break;
-			case 1:
-				lastOne = (lastOne == -1) ? a.length - i - 1 : lastOne;
-				break;
-			case 2:
-				lastTwo = (lastTwo == -1) ? a.length - i - 1 : lastTwo;
+				lastTwo = i;
 				break;
 			}
 		}
-
-
-		int zero = lastZero - firstZero + 1;
+		int zero = lastZero - firstZero;
 		int one = lastOne - firstOne;
 		int two = lastTwo - firstTwo;
 		
-		int max = Math.max(zero,  Math.max(one, two));
-		return max;
+		return Math.max(zero, Math.max(one, two));
 	}
-	
+
 	/**
 	 * 2. The function divides the array to sub-arrays, each sub-array is from one zero value to another. We will change the sub-arrays as their indexes at the sub-array (if the distance from one zero to another is 6, then
 	 * we'll have '0,1,2,3,4,0'). and then we'll change the sub-array again- but now from the end to the beginning (we need to put the distance to the closest zero), and we'll check which one of the indexes of the sub-array
@@ -227,13 +225,17 @@ public class Ex14 {
 	
 	public static void main(String[] args) 
 	{
-		int[] a = new int[] {1,1,0,1,1,1,1,0,1,1,1,1,1,0,1,1};
-		zeroDistance(a);
+		Random rand = new Random();
+		int[] a = new int[rand.nextInt(100)];
 		for (int i = 0; i < a.length; i++)
 		{
+			a[i] = rand.nextInt(100);
 			System.out.print(a[i] + "|");
 		}
 		System.out.println();
+		System.out.println("array size is: " + a.length);
+		System.out.println("Bad What: " + badWhat(a));
+		System.out.println("My What: " + what(a));
 		
 		//System.out.println(match(new int[] {2323,3, 57, 422, 3555, 355,657}, new int[] {1,0,2}));
 	}
