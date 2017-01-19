@@ -2,20 +2,49 @@
  * @author Gil
  * @ID 313260192
  */
+
+import java.util.Random;
 public class Ex14 {
 
+	private static int f(int[] a, int low, int high)
+	{
+		int res = 0;
+		for (int i = low; i <= high; i++)
+			res += a[i];
+		return res;
+	}
+
+	private static int badWhat(int[] a)
+	{
+		int temp = 0;
+		for (int i = 0; i < a.length; i++)
+		{
+			for (int j = i; j < a.length; j++)
+			{
+				int c = f(a, i, j);
+				if (c % 3 == 0)
+				{
+					temp = (j - i + 1 > temp) ? j - i + 1 : temp;
+				}
+			}
+		}
+		return temp;
+	}
+
 	/**
-	 * This method gets a number and a number which we want to get modulo from, and get it's positive modulo as if the modulo is non-nagetive,
+	 * This method gets a number and a modulo number which we want to get modulo from, and get it's positive modulo as if the modulo is non-nagetive,
 	 * it will be returned, and if it is nagetive, it will return the: the nagetive modulo + the modulo variable.
+	 * @param num the number.
+	 * @param modulo the modulo number.
 	 */
-	private static int floorMod(int num, int modulo)
+	private static int floorMod(int num, int modulo) // Time complexity: O(1)
 	{
 		num %= modulo;
 		return num >= 0 ? num : num + modulo;
 	}
-	
+
 	/**
-	 * 1.a. The function returns the maximal sub-array length which is sum divided by 3 without residue.
+	 * 1.a. The function returns the maximal contiguous sub-array length which its sum divided by 3 without residue.
 	 * 1.b. Complexity: O(n^3).
 	 * 1.c. See function 'what' above.
 	 * 1.d. Complexity: O(n).
@@ -28,7 +57,7 @@ public class Ex14 {
 	 * The third sub-array is the same as the second, but with the residue of 2.
 	 * now that we have these 3 sub-arrays limits, we'll calculate the longest sub-array- this sub array is the sub array we're looking for and it's length will be returned.
 	 */
-	
+
 	public static int what(int[] a)
 	{
 		int firstZero = -1, lastZero = -1;
@@ -44,21 +73,21 @@ public class Ex14 {
 				firstTwo = (floorMod(sum, 3) == 2) ? i : firstTwo;
 			switch(floorMod(sum, 3))
 			{
-			case 0:
-				lastZero = i;
-				break;
-			case 1:
-				lastOne = i;
-				break;
-			case 2:
-				lastTwo = i;
-				break;
+				case 0:
+					lastZero = i;
+					break;
+				case 1:
+					lastOne = i;
+					break;
+				case 2:
+					lastTwo = i;
+					break;
 			}
 		}
 		int zero = lastZero - firstZero;
 		int one = lastOne - firstOne;
 		int two = lastTwo - firstTwo;
-		
+
 		return Math.max(zero, Math.max(one, two));
 	}
 
@@ -71,7 +100,7 @@ public class Ex14 {
 	 * In conclusion, we're going into 6 for loops, which it's time complexity is O(n), we don't declare or allocating memory for any non-constant value (except the array which is not included), so the memory complexity is O(1).
 	 * @param a an array contains only 1 and 0 values
 	 */
-	
+
 	public static void zeroDistance(int[] a) // Time Complexity: O(n), Memory Complexity: O(1)
 	{
 		int firstZero = 0, lastZero = a.length - 1;
@@ -82,28 +111,28 @@ public class Ex14 {
 				firstZero = i;
 				break;
 			}
-		
+
 		for (int i = a.length - 1; i >= 0; i--) //finding the index of the last zero
 			if (a[i] == 0)
 			{
 				lastZero = i;
 				break;
 			}
-		
+
 		for (int i = firstZero; i >= 0; i--) // changing the array from the first zero to the beginning of the array
 			a[i] = count++;
-		
+
 		count = 0;
 		for (int i = lastZero; i < a.length; i++) // changing the array from the last zero to the end of the array
 			a[i] = count++;
-		
+
 		count = 0;
 		for (int i = firstZero; i < lastZero; i++) // changing the array from the first zero to the last zero
 			if (a[i] == 0)
 				count = 0;
 			else
 				a[i] = ++count;
-		
+
 		count = 0;
 		for (int i = lastZero; i > firstZero; i--) // changing the array from the last zero to the first zero, but we still check that the value in the box is from the closest zero (count < a[i]).
 			if (a[i] == 0)
@@ -111,33 +140,33 @@ public class Ex14 {
 			else
 				a[i] = (count < a[i]) ? ++count : a[i];
 	}
-	
+
 	/**
 	 * The function gets an array and an array index, it counts the distance from the closest zero value from the right and the left, and returns the minimal distance between the two
 	 * @param a an array contains only 1 and 0 values
 	 * @param x an array index
 	 */
-	
-	
+
+
 	/**
 	 * I overloaded the original method with a method that gets 4 arguments- the two Strings, and an index per string (integer i for string s, and integer j for string t).
 	 * @param s The original string.
 	 * @param t The string we check for transformation from s.
-	 * @return true if the String t is a transformation of String s, otherwise, returns false. 
+	 * @return true if the String t is a transformation of String s, otherwise, returns false.
 	 */
 	public static boolean isTrans(String s, String t)
 	{
 		return isTrans(s, t, 0, 0);
 	}
-	
-	
+
+
 	/**
 	 * The method first checks if the lengths of the strings are reasonable (s cannot be longer than t because t should be a transformation of s).
 	 * if the lengths are reasonable, then we split each iteration for 2 cases: the char at i in s equals to the char at j in t, and the case that the chars are non-equal.
-	 * 
+	 *
 	 * first case: if the chars are equal, and i and j are representing the last index at s and t, then the we finished checking and the result is true.
 	 * if not, we'll raise i and j, and in case i cannot be raised anymore (equals to last index), we'll raise j only.
-	 * 
+	 *
 	 * second case: if the chars aren't equal, then it could be for two reasons- the char has been multiplied in the transformation (which is okay), or the char isn't a valid char for a
 	 * transformed string (which is not okay).
 	 * so we check if the char has been multiplied or not (by comparing the current char represented by j to the previous char represented by j-1).
@@ -147,7 +176,7 @@ public class Ex14 {
 	 * @param t The string we check for transformation from s.
 	 * @param i Represents an index for string s.
 	 * @param j Represents an index for string t.
-	 * @return true if the String t is a transformation of String s, otherwise, returns false. 
+	 * @return true if the String t is a transformation of String s, otherwise, returns false.
 	 */
 	private static boolean isTrans(String s, String t, int i, int j)
 	{
@@ -158,7 +187,7 @@ public class Ex14 {
 				return true;
 			else if (i == s.length()-1)
 				return (isTrans (s, t, i, ++j));
-			else 
+			else
 				return (isTrans (s, t, ++i, ++j));
 		}
 		else if (s.charAt(i) != t.charAt(j)) {
@@ -170,9 +199,9 @@ public class Ex14 {
 		}
 		return true;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param a an array containing integers.
 	 * @param pattern an array containing only 0, 1 or 2.
 	 * @return true if the array a contains a sub-array compatible with the pattern array
@@ -181,16 +210,19 @@ public class Ex14 {
 	{
 		return match(a, pattern, 0, 0, 0);
 	}
-	
-	//TODO: comment this shit
+
+
 	/**
-	 * 
-	 * @param a
-	 * @param pattern
-	 * @param i
-	 * @param j
-	 * @param aIndex
-	 * @return
+	 * The method always treats the array as a "collection" of sub-arrays with a length of the pattern array.
+	 * The method iterates every sub-array and checks if it fits the pattern, if it fits, returns true.
+	 * if we reached the end of the array or reached a sub-array which its length can't be longer than the pattern
+	 * array, the method returns false.
+	 * @param a array a
+	 * @param pattern pattern array
+	 * @param i the index for the checked sub-array of array a
+	 * @param j the index for the pattern array
+	 * @param aIndex the index of the beginning of the current sub-array.
+	 * @return True if the there is a sub-array that matches the pattern, otherwise false.
 	 */
 	private static boolean match(int[] a, int[] pattern, int i, int j, int aIndex)
 	{
@@ -222,7 +254,7 @@ public class Ex14 {
 			return match(a, pattern, ++aIndex, j, aIndex);
 		}
 	}
-	
+
 	private static boolean Tester(int size, int limit)
 	{
 		Random rand = new Random();
@@ -236,12 +268,12 @@ public class Ex14 {
 		}
 		return badWhat(a) == what(a);
 	}
-	
+
 	public static void main(String[] args)
 	{
 		int size = 10000;
-		int limit = 100000000;
-		
+		int limit = 10000000;
+
 		int times = 100;
 		int count = 0;
 		for (int i = 0; i < times; i++)
@@ -256,15 +288,3 @@ public class Ex14 {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
