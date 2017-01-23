@@ -60,6 +60,8 @@ public class Ex14 {
 
 	public static int what(int[] a)
 	{
+		if (a == null)
+			return 0;
 		int firstZero = -1, lastZero = -1;
 		int firstOne = -1, lastOne = -1;
 		int firstTwo = -1, lastTwo = -1;
@@ -103,6 +105,8 @@ public class Ex14 {
 
 	public static void zeroDistance(int[] a) // Time Complexity: O(n), Memory Complexity: O(1)
 	{
+		if (a == null)
+			return;
 		int firstZero = 0, lastZero = a.length - 1;
 		int count = 0;
 		for (int i = 0; i < a.length; i++) //finding the index of the first zero
@@ -156,6 +160,12 @@ public class Ex14 {
 	 */
 	public static boolean isTrans(String s, String t)
 	{
+		if (s == null && t == null)
+			return true;
+		else if (s == null)
+			return false;
+		else if (t == null)
+			return false;
 		return isTrans(s, t, 0, 0);
 	}
 
@@ -208,6 +218,10 @@ public class Ex14 {
 	 */
 	public static boolean match(int[] a, int[] pattern)
 	{
+		if (pattern == null || pattern.length == 0)
+			return true;
+		else if (a == null || a.length < pattern.length)
+			return false;
 		return match(a, pattern, 0, 0, 0);
 	}
 
@@ -226,10 +240,6 @@ public class Ex14 {
 	 */
 	private static boolean match(int[] a, int[] pattern, int i, int j, int aIndex)
 	{
-		if (pattern.length == 0)
-			return true;
-		if (a.length < pattern.length)
-			return false;
 		if (a[i]/10 == 0 && pattern[j] != 2)
 		{
 			if (j == pattern.length - 1)
@@ -271,7 +281,7 @@ public class Ex14 {
 
 	public static void main(String[] args)
 	{
-		int size = 10000;
+		int size = 1000;
 		int limit = 10000000;
 
 		int times = 100;
@@ -286,5 +296,4 @@ public class Ex14 {
 		else
 			System.out.println("Failed " + count + " times");
 	}
-
 }
