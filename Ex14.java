@@ -1,39 +1,12 @@
 /**
- * @author Gil
+ * This class is the answer to Exercise 14 at the course "Introduction to Computer science and Java programming language" in the Open University of Israel.
+ * @author Gil Mansharov
  * @ID 313260192
  */
-
-import java.util.Random;
 public class Ex14 {
-
-	private static int f(int[] a, int low, int high)
-	{
-		int res = 0;
-		for (int i = low; i <= high; i++)
-			res += a[i];
-		return res;
-	}
-
-	private static int badWhat(int[] a)
-	{
-		int temp = 0;
-		for (int i = 0; i < a.length; i++)
-		{
-			for (int j = i; j < a.length; j++)
-			{
-				int c = f(a, i, j);
-				if (c % 3 == 0)
-				{
-					temp = (j - i + 1 > temp) ? j - i + 1 : temp;
-				}
-			}
-		}
-		return temp;
-	}
-
 	/**
 	 * This method gets a number and a modulo number which we want to get modulo from, and get it's positive modulo as if the modulo is non-nagetive,
-	 * it will be returned, and if it is nagetive, it will return the: the nagetive modulo + the modulo variable.
+	 * it will be returned, and if it is negative, it will return the: the negative modulo + the modulo variable.
 	 * @param num the number.
 	 * @param modulo the modulo number.
 	 */
@@ -57,8 +30,7 @@ public class Ex14 {
 	 * The third sub-array is the same as the second, but with the residue of 2.
 	 * now that we have these 3 sub-arrays limits, we'll calculate the longest sub-array- this sub array is the sub array we're looking for and it's length will be returned.
 	 */
-
-	public static int what(int[] a)
+	public static int what(int[] a) // Time Complexity: O(n), Memory Complexity: O(1)
 	{
 		if (a == null)
 			return 0;
@@ -102,7 +74,6 @@ public class Ex14 {
 	 * In conclusion, we're going into 6 for loops, which it's time complexity is O(n), we don't declare or allocating memory for any non-constant value (except the array which is not included), so the memory complexity is O(1).
 	 * @param a an array contains only 1 and 0 values
 	 */
-
 	public static void zeroDistance(int[] a) // Time Complexity: O(n), Memory Complexity: O(1)
 	{
 		if (a == null)
@@ -146,13 +117,6 @@ public class Ex14 {
 	}
 
 	/**
-	 * The function gets an array and an array index, it counts the distance from the closest zero value from the right and the left, and returns the minimal distance between the two
-	 * @param a an array contains only 1 and 0 values
-	 * @param x an array index
-	 */
-
-
-	/**
 	 * I overloaded the original method with a method that gets 4 arguments- the two Strings, and an index per string (integer i for string s, and integer j for string t).
 	 * @param s The original string.
 	 * @param t The string we check for transformation from s.
@@ -168,7 +132,6 @@ public class Ex14 {
 			return false;
 		return isTrans(s, t, 0, 0);
 	}
-
 
 	/**
 	 * The method first checks if the lengths of the strings are reasonable (s cannot be longer than t because t should be a transformation of s).
@@ -225,7 +188,6 @@ public class Ex14 {
 		return match(a, pattern, 0, 0, 0);
 	}
 
-
 	/**
 	 * The method always treats the array as a "collection" of sub-arrays with a length of the pattern array.
 	 * The method iterates every sub-array and checks if it fits the pattern, if it fits, returns true.
@@ -265,35 +227,7 @@ public class Ex14 {
 		}
 	}
 
-	private static boolean Tester(int size, int limit)
-	{
-		Random rand = new Random();
-		int[] a = new int[rand.nextInt(size)];
-		for (int i = 0; i < a.length; i++)
-		{
-			if (rand.nextInt(2) == 0)
-				a[i] = rand.nextInt(limit);
-			else
-				a[i] = rand.nextInt(limit) * -1;
-		}
-		return badWhat(a) == what(a);
-	}
-
 	public static void main(String[] args)
 	{
-		int size = 1000;
-		int limit = 10000000;
-
-		int times = 100;
-		int count = 0;
-		for (int i = 0; i < times; i++)
-		{
-			if (!Tester(size, limit))
-				count++;
-		}
-		if (count == 0)
-			System.out.println("It works!");
-		else
-			System.out.println("Failed " + count + " times");
 	}
 }
