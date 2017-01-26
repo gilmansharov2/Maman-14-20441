@@ -124,7 +124,7 @@ public class Ex14 {
 	 */
 	public static boolean isTrans(String s, String t)
 	{
-		if (s == null && t == null)
+		if ((s == null && t == null) || (s.length() == 0 && t.length() == 0))
 			return true;
 		else if (s == null)
 			return false;
@@ -153,22 +153,25 @@ public class Ex14 {
 	 */
 	private static boolean isTrans(String s, String t, int i, int j)
 	{
+		if (i > s.length() - 1 || j > t.length() - 1)
+			return false;
 		if (t.length() < s.length())
 			return false;
 		else if (s.charAt(i) == t.charAt(j)) {
 			if ((j == t.length()-1) && (i == s.length()-1))
 				return true;
 			else if (i == s.length()-1)
-				return (isTrans (s, t, i, ++j));
+				return (isTrans (s, t, i, j + 1));
 			else
-				return (isTrans (s, t, ++i, ++j));
+				return (isTrans (s, t, i + 1, j + 1));
 		}
 		else if (s.charAt(i) != t.charAt(j)) {
 			if (j == t.length()-1)
 				return false;
-			else if (t.charAt(j-1) != t.charAt(j))
+
+			else if (j == 0 || t.charAt(j-1) != t.charAt(j))
 				return false;
-			return (isTrans (s, t, i, ++j));
+			return (isTrans (s, t, i, j + 1));
 		}
 		return true;
 	}
@@ -230,7 +233,7 @@ public class Ex14 {
 			return match(a, pattern, ++aIndex, j, aIndex);
 		}
 	}
-	
+
 	public static void main(String[] args)
 	{
 	}
