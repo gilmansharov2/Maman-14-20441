@@ -202,6 +202,10 @@ public class Ex14 {
 	 */
 	private static boolean match(int[] a, int[] pattern, int i, int j, int aIndex)
 	{
+		if (pattern.length == 0)
+			return true;
+		if (a.length < pattern.length)
+			return false;
 		if (a[i]/10 == 0 && pattern[j] != 2)
 		{
 			if (j == pattern.length - 1)
@@ -210,7 +214,7 @@ public class Ex14 {
 				return false;
 			return match(a, pattern, ++i, ++j, aIndex);
 		}
-		else if (a[i]/10 > 0 && a[i]/10 < 10 && pattern[j] != 1)
+		else if (a[i]/10 > -10 && a[i]/10 < 10 && a[i]/10 != 0 && pattern[j] != 1)
 		{
 			if (j == pattern.length - 1)
 				return true;
@@ -226,7 +230,7 @@ public class Ex14 {
 			return match(a, pattern, ++aIndex, j, aIndex);
 		}
 	}
-
+	
 	public static void main(String[] args)
 	{
 	}
