@@ -1,7 +1,6 @@
 /**
  * This class is the answer to Exercise 14 at the course "Introduction to Computer science and Java programming language" in the Open University of Israel.
  * @author Gil Mansharov
- * @ID 313260192
  */
 public class Ex14 {
 	/**
